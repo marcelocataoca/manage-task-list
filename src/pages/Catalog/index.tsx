@@ -1,4 +1,4 @@
-import { AppBar, Toolbar } from "@mui/material";
+import { AppBar, Grid, Toolbar } from "@mui/material";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { ItemNav } from "./styles";
@@ -10,18 +10,18 @@ import { useModal } from "../../hooks/useModal";
 
 export function Catalog() {
   const [titleList, setTitleList] = useState<string[]>([]);
-  const {isModalVisible, setIsModalVisible} = useModal();
+  const { isModalVisible, setIsModalVisible } = useModal();
   const navigate = useNavigate();
 
   function handleLogout() {
     navigate("../Login");
-  }   
+  }
 
-  function handleOpenAdd(){
+  function handleOpenAdd() {
     setIsModalVisible(true);
   }
 
-  function handleRemoveItem(id: number){    
+  function handleRemoveItem(id: number) {
     const newList = titleList.filter((item, index) => index != id);
     setTitleList(newList);
   }
@@ -30,7 +30,7 @@ export function Catalog() {
     flex: 1,
     padding: 10,
     marginTop: 100,
-  }
+  };
 
   return (
     <div>
@@ -48,24 +48,38 @@ export function Catalog() {
             >
               Adicionar
             </Button>
-            <ItemNav style={{display: 'flex', alignItems:'center'}}>Produtos</ItemNav>
-            <ItemNav style={{display: 'flex', alignItems:'center'}}>Sobre</ItemNav>
+            <ItemNav style={{ display: "flex", alignItems: "center" }}>
+              Produtos
+            </ItemNav>
+            <ItemNav style={{ display: "flex", alignItems: "center" }}>
+              Sobre
+            </ItemNav>
           </div>
           <Button
             variant="outlined"
             style={{ color: "#fff" }}
             onClick={handleLogout}
           >
-            Sair  
+            Sair
           </Button>
         </Toolbar>
-        {isModalVisible && <Modal titleList={titleList} setList={setTitleList}/>}
+        {isModalVisible && (
+          <Modal titleList={titleList} setList={setTitleList} />
+        )}
       </AppBar>
-      <Container style={containerList}>
-        {titleList.length > 0 && titleList.map((itemList, index) => {
-          return (<CardTask title={itemList} handleDelete={() => handleRemoveItem(index)}/>)
-        })} 
-      </Container>
+      <Grid container spacing={2} style={containerList}>
+        {titleList.length > 0 &&
+          titleList.map((itemList, index) => {
+            return (
+              <Grid item xs={12} md={4} sm={6} >
+                <CardTask
+                  title={itemList}
+                  handleDelete={() => handleRemoveItem(index)}
+                />
+              </Grid>
+            );
+          })}
+      </Grid>
     </div>
   );
 }
