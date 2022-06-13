@@ -11,7 +11,9 @@ import Card from "@mui/material/Card";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "../styles/cardTask.scss";
 import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from "react";
+import * as yup from 'yup';
 
 interface CardProps {
   title: string;
@@ -22,21 +24,27 @@ export function CardTask({ title, handleDelete }: CardProps) {
   const [taskName, setTaskName] = useState("");
   const [priority, setPriority] = useState("");
 
+  const taskShema = yup.object({
+    task: yup
+      .string()
+      .required(),
+    priority: yup
+      .string()
+      .required()
+  }).required();
+
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
+    reset
   } = useForm({
-    defaultValues: {
-      task: "",
-      priority: { value: "hight", label: "Hight" },
-    },
+    resolver: yupResolver(taskShema)
   });
 
   function handleAddTaskList() {
     console.log(taskName);
-    console.log(priority);
+    console.log(priority);  
   }
 
   return (
@@ -56,28 +64,29 @@ export function CardTask({ title, handleDelete }: CardProps) {
           </IconButton>
         </div>
         <div className="inputForm">
-          <form>
+          <form onSubmit={handleSubmit(handleAddTaskList)}>
             <TextField
-              autoFocus
-              required
+              autoFocus            
               margin="dense"
               id="task"
               style={{marginTop: 0}}
               sx={{ minWidth: 160 }}
-              onChange={(event) => setTaskName(event.target.value)}
               label="Qual a task?"
+              {...register("task")}
             />
+           <p>{errors.task?.message}</p>
             <Select
               onChange={(event) => setPriority(event.target.value as string)}
               labelId="simple-select-label"
               id="simple-select"
               style={{ marginLeft: 10 }}
-              label="Priority:"
+              label="Priority:"      
             >
               <MenuItem value={"low"}>Low</MenuItem>
               <MenuItem value={"medium"}>Medium</MenuItem>
               <MenuItem value={"hight"}>Hight</MenuItem>
             </Select>
+            {errors.task && <span>Task is required</span>}
             <Button
               variant="contained"
               style={{
