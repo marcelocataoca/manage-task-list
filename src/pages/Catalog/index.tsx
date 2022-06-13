@@ -64,14 +64,14 @@ export function Catalog() {
           </Button>
         </Toolbar>
         {isModalVisible && (
-          <Modal titleList={titleList} setList={setTitleList} />
+          <Modal titleList={titleList} setList={setTitleList}/>
         )}
       </AppBar>
       <Grid container spacing={2} style={containerList}>
         {titleList.length > 0 &&
           titleList.map((itemList, index) => {
             return (
-              <Grid item xs={12} md={4} sm={6} >
+              <Grid key={index} item xs={12} md={4} sm={6} >
                 <CardTask
                   title={itemList}
                   handleDelete={() => handleRemoveItem(index)}
