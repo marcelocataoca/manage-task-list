@@ -71,11 +71,12 @@ export function CardTask({ title, handleDelete }: CardProps) {
           <form onSubmit={handleSubmit(handleAddTaskList, onError)}>
             <TextField
               autoFocus              
-              id="task"            
+              id="task"
+              {...register('task')}
+              onChange={(event) => setTaskName(event.target.value as string)}
               style={{marginTop: 0}}
               sx={{ minWidth: 160 }}
               label="Qual a task?"
-              {...register('task')}
               error={errors.task}
             />         
             <Typography variant="inherit" color="textSecondary">
@@ -83,17 +84,20 @@ export function CardTask({ title, handleDelete }: CardProps) {
             </Typography>
                           
             <Select
-              onChange={(event) => setPriority(event.target.value as string)}
-              labelId="simple-select-label"
-              id="simple-select"
+              {...register('priority')}
+              onChange={(event) => setPriority(event.target.value as string)}             
+              id="priority"
               style={{ marginLeft: 10 }}
-              label="Priority:"      
+              label="Priority:"
+              error={errors.priority}      
             >
               <MenuItem value={"low"}>Low</MenuItem>
               <MenuItem value={"medium"}>Medium</MenuItem>
               <MenuItem value={"hight"}>Hight</MenuItem>
             </Select>
-            {errors.task && <span>Priority is required</span>}
+            <Typography variant="inherit" color="textSecondary">
+                {errors.priority?.message}
+            </Typography>
             <Button
               variant="contained"
               type="submit"
