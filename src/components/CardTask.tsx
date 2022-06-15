@@ -37,14 +37,18 @@ export function CardTask({ title, handleDelete }: CardProps) {
     register,
     handleSubmit,
     formState: { errors },
-    reset
-  } = useForm({
+    control
+  } = useForm({ 
     resolver: yupResolver(taskShema)
   });
 
-  function handleAddTaskList() {
+  const handleAddTaskList = () => {
     console.log(taskName);
     console.log(priority);  
+  }
+
+  const onError = (error: any) => {
+    console.log('erro: ', error);
   }
 
   return (
@@ -64,31 +68,39 @@ export function CardTask({ title, handleDelete }: CardProps) {
           </IconButton>
         </div>
         <div className="inputForm">
-          <form onSubmit={handleSubmit(handleAddTaskList)}>
+          <form onSubmit={handleSubmit(handleAddTaskList, onError)}>
             <TextField
-              autoFocus            
-              margin="dense"
+              autoFocus              
               id="task"
+              {...register('task')}
+              onChange={(event) => setTaskName(event.target.value as string)}
               style={{marginTop: 0}}
               sx={{ minWidth: 160 }}
               label="Qual a task?"
-              {...register("task")}
-            />
-           <p>{errors.task?.message}</p>
+              error={errors.task}
+            />         
+            <Typography variant="inherit" color="textSecondary">
+                {errors.task?.message}
+            </Typography>
+                          
             <Select
-              onChange={(event) => setPriority(event.target.value as string)}
-              labelId="simple-select-label"
-              id="simple-select"
+              {...register('priority')}
+              onChange={(event) => setPriority(event.target.value as string)}             
+              id="priority"
               style={{ marginLeft: 10 }}
-              label="Priority:"      
+              label="Priority:"
+              error={errors.priority}      
             >
               <MenuItem value={"low"}>Low</MenuItem>
               <MenuItem value={"medium"}>Medium</MenuItem>
               <MenuItem value={"hight"}>Hight</MenuItem>
             </Select>
-            {errors.task && <span>Task is required</span>}
+            <Typography variant="inherit" color="textSecondary">
+                {errors.priority?.message}
+            </Typography>
             <Button
               variant="contained"
+              type="submit"
               style={{
                 color: "white",
                 marginLeft: 10,
