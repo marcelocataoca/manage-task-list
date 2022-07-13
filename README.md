@@ -2,7 +2,7 @@
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
-- [Vite] (https://vitejs.dev/guide/#overview)
+- [Vite](https://vitejs.dev/guide/#overview)
 - [React](https://reactjs.org)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Material UI](https://mui.com/pt/material-ui/getting-started/installation/)
