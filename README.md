@@ -27,4 +27,4 @@ $ yarn dev
 ```
 O app estará disponível no seu browser pelo endereço http://localhost:3000
 
-## 💻 Projeto
+## 💻
