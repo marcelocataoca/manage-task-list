@@ -10,19 +10,26 @@ import {
 import Card from "@mui/material/Card";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "../styles/cardTask.scss";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from "react";
 import * as yup from 'yup';
+import { ListTask } from "./ListTask";
 
 interface CardProps {
   title: string;
   handleDelete: () => void;
 }
 
+interface ItemTask{
+  taskName: string;
+  priority: string;
+}
+
 export function CardTask({ title, handleDelete }: CardProps) {
   const [taskName, setTaskName] = useState("");
   const [priority, setPriority] = useState("");
+  const [taskList, setTaskList] = useState<ItemTask[]>([]);
 
   const taskShema = yup.object({
     task: yup
@@ -43,12 +50,14 @@ export function CardTask({ title, handleDelete }: CardProps) {
   });
 
   const handleAddTaskList = () => {
-    console.log(taskName);
-    console.log(priority);  
+    const itemTypeTask : ItemTask = {taskName, priority};
+    console.log(itemTypeTask);    
+    setTaskList([...taskList, itemTypeTask]);
   }
-
-  const onError = (error: any) => {
-    console.log('erro: ', error);
+  
+  //Deletar o item da lista de task
+  const handleDeleteTask = (id: number) => {
+    // setTaskList(prev => prev!.filter(item => item.id !== id))
   }
 
   return (
@@ -68,7 +77,7 @@ export function CardTask({ title, handleDelete }: CardProps) {
           </IconButton>
         </div>
         <div className="inputForm">
-          <form onSubmit={handleSubmit(handleAddTaskList, onError)}>
+          <form onSubmit={handleSubmit(handleAddTaskList)}>
             <TextField
               autoFocus              
               id="task"
@@ -112,6 +121,8 @@ export function CardTask({ title, handleDelete }: CardProps) {
               Add
             </Button>
           </form>
+          {/* Grid list  */}
+          {/* <ListTask list={taskList}/> */}
         </div>
       </CardContent>
     </Card>
