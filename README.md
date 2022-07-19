@@ -6,6 +6,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [React](https://reactjs.org)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Material UI](https://mui.com/pt/material-ui/getting-started/installation/)
+- [Hook Form](https://react-hook-form.com/)
 
 ## 🚀 Como executar
 
