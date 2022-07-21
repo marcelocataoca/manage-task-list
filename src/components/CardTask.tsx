@@ -50,8 +50,7 @@ export function CardTask({ title, handleDelete }: CardProps) {
   });
 
   const handleAddTaskList = () => {
-    const itemTypeTask : ItemTask = {taskName, priority};
-    console.log(itemTypeTask);    
+    const itemTypeTask : ItemTask = {taskName, priority}; 
     setTaskList([...taskList, itemTypeTask]);
   }
   
@@ -122,7 +121,11 @@ export function CardTask({ title, handleDelete }: CardProps) {
             </Button>
           </form>
           {/* Grid list  */}
-          {/* <ListTask list={taskList}/> */}
+          {taskList.map((item: ItemTask) => {
+            return(
+              <>{{item}}</>
+            )
+            })}
         </div>
       </CardContent>
     </Card>
