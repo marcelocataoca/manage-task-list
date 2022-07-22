@@ -2,6 +2,7 @@ import {
   Button,
   CardContent,
   IconButton,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -28,7 +29,7 @@ interface ItemTask{
 
 export function CardTask({ title, handleDelete }: CardProps) {
   const [taskName, setTaskName] = useState("");
-  const [priority, setPriority] = useState("");
+  const [priority, setPriority] = useState("Priority");
   const [taskList, setTaskList] = useState<ItemTask[]>([]);
 
   const taskShema = yup.object({
@@ -90,12 +91,14 @@ export function CardTask({ title, handleDelete }: CardProps) {
             <Typography variant="inherit" color="textSecondary">
                 {errors.task?.message}
             </Typography>
-                          
+                                     
             <Select
               {...register('priority')}
               onChange={(event) => setPriority(event.target.value as string)}             
+              labelId="demo-simple-select-label"
               id="priority"
-              style={{ marginLeft: 10 }}
+              className="select-level"
+              value={priority}
               label="Priority:"
               error={errors.priority}      
             >
